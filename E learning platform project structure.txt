@@ -1,0 +1,27 @@
+homepage:
+home/
+
+Authentication pages:
+home/account/<login, logout, forgot_pass, register>/
+
+profile pages:
+home/account/student/<id>/ 
+home/account/tutor/<id>/
+
+classroom pages for student:
+home/classroom/<id>/
+home/classroom/lectures/
+home/classroom/lectures/sepcific_lecture/<id>/
+home/classroom/chatbox/
+home/classroom/assignments/
+home/classroom/assignments/specific_assignment/<id>/
+home/classroom/announcements/
+home/classroom/announcements/specific_announcement/<id>/
+
+classroom pages for tutor:
+All pages of student with additional features
+home/classroom/manage_students/
+home/classroom/manage_students/student_profile/<id>
+
+
+
