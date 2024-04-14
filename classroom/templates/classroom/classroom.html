@@ -1,5 +1,29 @@
-{% extends "student_base.html" %}
-{% block content %}
-Class Name
-{% endblock content %}
-
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-classroom</title>
+    <link href="{% static "static/classroom/classroom.css" %}" rel="stylesheet">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="main-menu">
+            <nav class="main-menu-nav">
+                <ul class="main-menu-list">
+                    {% include "menu.html" with current_classroom_id=current_classroom_id %}
+                    <!-- Add more menu items as needed -->
+                </ul>
+            </nav>
+        </div>
+        <section class="main-content" id="class-desc">
+            <h3>{{classroom.name}}</h3>
+            <p>Created at: {{classroom.created_at}}</p>
+            <p>Created by: {{classroom.tutor}}</p>
+            {{classroom.description}}
+        </section>
+    </main>
+</body>
+</html>

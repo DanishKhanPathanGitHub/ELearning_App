@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Website</title>
+    <link href="{% static "static/accounts/registerUser.css" %}" rel="stylesheet">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+       <!-- Main Section Start -->
+       <h3 class="heading-text" style="margin-bottom: 0;">WELCOME TO E-classroom</h3>
+       <p class="heading-text">Please fill this form to get yourself a seat in E-classroom</p>
+           <form class="form-fields-set" method="post" action="{% url "registerUser" %}">
+               {% csrf_token %}
+                       <div class="row">
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="row">
+                                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                <div class="field-holder">
+                                                    <label>Register as</label>{{user_form.role}}
+                                                </div>
+                                           </div>
+                                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                               <div class="field-holder">
+                                                   <label>First name</label>{{user_form.firstname}}
+                                               </div>
+                                           </div>
+                                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                               <div class="field-holder">
+                                                   <label>Last name</label>{{user_form.lastname}}
+                                               </div>
+                                           </div>
+                                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                               <div class="field-holder">
+                                                   <label>Username </label>{{user_form.username}}
+                                               </div>
+                                           </div>
+                                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                               <div class="field-holder">
+                                                   <label>Email Address</label>{{user_form.email}}
+                                               </div>
+                                           </div>
+                                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                               <div class="field-holder">
+                                                   <label>Password</label>
+                                                   {{user_form.password}}
+                                               </div>
+                                           </div>
+                                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                               <div class="field-holder">
+                                                   <label>Confirm Password</label>
+                                                   {{user_form.confirm_password}}
+                                               </div>
+                                           </div>
+                                   
+                               </div>
+                           </div>
+                       </div>
+                
+                       <div class="row">
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               <div class="field-holder">
+                                   {% for field in user_form %}
+                                           {% if field.errors %}
+                                               {% for error in field.errors %}
+                                                   <li style="color:red">{{error}}</li>
+                                               {% endfor %}
+                                           {% endif %}
+                                       {% endfor %}
+                                   {{user_form.non_field_errors}}
+                                   
+                                  
+                                   {% if messages %}
+                               {% for message in messages  %}
+                               <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                     <span aria-hidden="true">&times;</span>
+                                   </button>
+                                   {{message}}
+                                 </div>
+                               {% endfor %}
+                               {% endif %}
+                                   <div class="submit-btn">
+                                       <input type="submit" value="Submit" class="bgcolor">
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+           </form>
+<!-- Main Section End -->
+
+    </main>
+</body>
+</html>

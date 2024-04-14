@@ -4,7 +4,7 @@ body {
 }
 
 header {
-    background: linear-gradient(to right, #4C99BF, #647DEE);
+    background: linear-gradient(to bottom right, #290974, #1639d5);
     color: white;
     padding: 20px;
 }
@@ -56,7 +56,7 @@ header {
 
 .main-menu-item {
     margin-bottom: 10px;
-    box-shadow: 0px 2px 4px #647DEE;
+    box-shadow: 0px 2px 4px #1639d5;
     padding-left: 10px;
     padding-top: 10px;
     padding-bottom: 5px;
@@ -72,3 +72,8 @@ header {
     padding: 20px;
     margin-left: 220px; /* Ensure content doesn't overlap with the menu */
 }
+.selected {
+    color: #ffffff; /* Text color for selected link */
+    background-color: #1639d5; /* Background color for selected link */
+}
+

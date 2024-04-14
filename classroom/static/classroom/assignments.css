@@ -1,0 +1,143 @@
+body {
+    font-family: sans-serif;
+    margin: 0; /* Reset default margin */
+}
+
+header {
+    background: linear-gradient(to bottom right, #290974, #1639d5);
+    color: white;
+    padding: 20px;
+}
+
+.header-title {
+    font-size: 2em;
+    margin: 0;
+}
+
+.header-nav {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header-nav-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header-nav-item {
+    margin-right: 20px;
+}
+
+.header-nav-link {
+    text-decoration: none;
+    color: white;
+}
+
+.main-menu {
+    background-color: #f0f0f0;
+    height: 100vh; /* Set height to occupy full viewport height */
+    width: 200px; /* Adjust width as needed */
+    float: left; /* Float to left */
+}
+.selected {
+  color: #ffffff; /* Text color for selected link */
+  background-color: #1639d5; /* Background color for selected link */
+}
+
+.main-menu-nav {
+    padding: 0px;
+}
+
+.main-menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-menu-item {
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px #1639d5;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+.main-menu-link {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.main-content {
+    padding: 20px;
+    margin-left: 220px; /* Ensure content doesn't overlap with the menu */
+}
+
+.assignment-container {
+    display: flex; /* Allow posts to arrange horizontally */
+    flex-wrap: wrap; /* Wrap posts to fit container width */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 20px; /* Add some padding for visual separation */
+  }
+  
+  .post {
+    background-color: #f5f5f5; /* Light background color */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 5px; /* Rounded corners for rectangle shape */
+    margin: 10px; /* Margin between posts */
+    padding: 15px; /* Padding for content within posts */
+    width: 300px; /* Adjust width as needed */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  .assignment-info {
+    margin-bottom: 10px; /* Spacing between title and description */
+  }
+  
+  .assignment-name {
+    font-size: 18px; /* Adjust heading size as needed */
+    font-weight: bold; /* Make title bolder for emphasis */
+    margin-bottom: 5px; /* Small margin below title */
+  }
+  
+  .assignment-des {
+    font-size: 14px; /* Adjust description text size as needed */
+    color: #333; /* Darker text color for readability */
+  }
+  
+  .time.item {
+    display: flex; /* Align icon and due date text */
+    align-items: center; /* Vertically align icon and text */
+  }
+  
+  .material-icons {
+    font-size: 16px; /* Adjust material icon size as needed */
+    margin-right: 5px; /* Spacing between icon and text */
+  }
+  
+  .buttons {
+    text-align: right; /* Align buttons to the right */
+  }
+  
+  .buttons button {
+    background-color: #007bff; /* Blue button color */
+    color: #fff; /* White text color */
+    padding: 5px 10px; /* Button padding */
+    border: none; /* Remove button border */
+    border-radius: 3px; /* Rounded corners for buttons */
+    cursor: pointer; /* Indicate clickable button */
+  }
+  
+  .buttons button a {
+    color: inherit; /* Inherit button text color */
+    text-decoration: none; /* Remove default link underline */
+  }
+  
+  .buttons button:hover {
+    background-color: #0069d9; /* Slightly darker blue on hover */
+  }
+  

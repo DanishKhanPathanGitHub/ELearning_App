@@ -36,16 +36,17 @@ def send_verification_email(request, user, mail_subject, email_template):
 
 
    # 'emails/reset_password_validate.html'
-    
+'''    
 def send_notification(mail_subject, email_template, context):
     from_email = settings.DEFAULT_FROM_EMAIL
     message = render_to_string(email_template, context)
     user = context['user']
     mail = EmailMessage(mail_subject, message, from_email, to=[user.email])
-    mail.send()
+    mail.send()'''
 
 def image_validator(value):
     extention = os.path.splitext(value.name)[1]
     valid_extentions = ['.png', '.jpeg', '.jpg',]
     if not extention.lower() in valid_extentions:
         raise ValidationError('Unsupported file type, upload supported file type: '+ str(valid_extentions))
+    

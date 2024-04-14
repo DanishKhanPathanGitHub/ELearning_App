@@ -1,0 +1,120 @@
+body {
+    font-family: sans-serif;
+    margin: 0; /* Reset default margin */
+}
+
+header {
+    background: linear-gradient(to bottom right, #290974, #1639d5);
+    color: white;
+    padding: 20px;
+}
+
+.header-title {
+    font-size: 2em;
+    margin: 0;
+}
+
+.header-nav {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header-nav-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header-nav-item {
+    margin-right: 20px;
+}
+
+.header-nav-link {
+    text-decoration: none;
+    color: white;
+}
+
+main {
+    padding: 20px;
+}
+
+#classes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.class-box {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #eee;
+    color: black;
+    display: block;
+    width: calc(25% - 15px);
+}
+
+.add-class-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #290974;
+    border-radius: 5px;
+    background-color: #290974;
+    color: white;
+    text-decoration: none;
+    margin-top: 20px;
+}
+/* Reset default list styles */
+.classroom-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Style the classroom cards */
+  .classroom-card {
+    display: inline-block;
+    margin: 10px;
+    width: 300px; /* Adjust width as needed */
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #290974; /* Subtle shadow */
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .classroom-card:hover {
+    box-shadow: 0 0 20px #1639d5; /* Enhanced shadow on hover */
+    transform: translateY(-2px); /* Slight hover effect */
+  }
+  
+  /* Style the image within the card */
+  .card-image {
+    object-fit: cover;
+    max-height:150px;
+    min-height: 150px;
+  }
+  
+  /* Style the content area of the card */
+  .card-content {
+    padding: 15px;
+  }
+  
+  /* Style links within the card content */
+  .card-content a {
+    color: #007bff; /* Link color */
+    text-decoration: none;
+  }
+  
+  .card-content a:hover {
+    text-decoration: underline; /* Subtle hover effect for links */
+  }
+  
+  /* Style headings and paragraphs within the card content */
+  .card-content h3,
+  .card-content p {
+    margin: 5px 0; /* Add some spacing between elements */
+  }
+  

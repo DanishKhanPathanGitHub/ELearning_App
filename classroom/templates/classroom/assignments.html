@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-classroom</title>
+    <link href="{% static "static/classroom/assignments.css" %}" rel="stylesheet">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="main-menu">
+            <nav class="main-menu-nav">
+                <ul class="main-menu-list">
+                    {% include "menu.html" with current_classroom_id=current_classroom_id %}
+                    <!-- Add more menu items as needed -->
+                </ul>
+            </nav>
+        </div>
+        <section class="main-content" id="class-desc">
+            <h3>Assignments</h3>
+            {% if not assignments %}No assignments{% endif %}
+            <div class="assignment-container">
+                <!-- assignment post -->
+                {% for assignment in assignments %}
+                <div class="post">
+                  <!-- name and des -->
+                  <div class="assignment-info">
+                    <h1>
+                      <p class="assignment-name">{{assignment.name}}</p>
+                    </h1>
+                    <div class="assignment-des">
+                      <div class="time item">
+                        <span class="material-icons"> due date: </span>
+                        <p>{{assignment.due_date}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="buttons">
+                    {% if user.role == 1 %}
+                    <button class="apply"><a href="{% url "SpecificAssignment" id=current_classroom_id asid=assignment.id %}">
+                      View assignment
+                    </a></button>
+                    {% else %}
+                    <button class="apply"><a href="{% url "tutorSpecificAssignment" id=current_classroom_id asid=assignment.id %}">
+                        View assignment
+                      </a></button>
+                    {% endif %}
+                  </div>      
+                </div>
+                <!-- assignment post end-->
+                {% endfor %}
+              </div>
+        </section>
+    </main>
+</body>
+</html>

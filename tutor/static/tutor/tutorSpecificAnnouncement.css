@@ -1,0 +1,92 @@
+body {
+    font-family: sans-serif;
+    margin: 0; /* Reset default margin */
+}
+
+header {
+    background: linear-gradient(to bottom right, #290974, #1639d5);
+    color: white;
+    padding: 20px;
+}
+
+.header-title {
+    font-size: 2em;
+    margin: 0;
+}
+
+.header-nav {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header-nav-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header-nav-item {
+    margin-right: 20px;
+}
+
+.header-nav-link {
+    text-decoration: none;
+    color: white;
+}
+
+.main-menu {
+    background-color: #f0f0f0;
+    height: 100vh; /* Set height to occupy full viewport height */
+    width: 200px; /* Adjust width as needed */
+    float: left; /* Float to left */
+}
+
+.main-menu-nav {
+    padding: 0px;
+}
+
+.main-menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-menu-item {
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px #1639d5;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+.main-menu-link {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+.selected {
+    color: #ffffff; /* Text color for selected link */
+    background-color: #1639d5; /* Background color for selected link */
+}
+
+.main-content {
+    padding: 20px;
+    margin-left: 220px; /* Ensure content doesn't overlap with the menu */
+}
+
+.submit-button {
+    background-color: white;
+    /* Light blue color */
+    color: #1639d5;
+    padding: 10px 20px;
+    border: 2px solid #1639d5;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.submit-button:hover {
+    background-color: #1639d5;
+    color: #ffffff;
+}

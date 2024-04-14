@@ -1,0 +1,56 @@
+{% if user.role == 2 %}
+<a href="{% url "classroom" current_classroom_id %}" class="main-menu-link">
+    <li class="main-menu-item {% if 'classroom/' in request.path and 'assignments' not in request.path and 'announcement' not in request.path%}selected{% endif %}">
+        Manage classroom
+    </li>
+</a>
+{% else %}
+<a href="{% url "classroom" current_classroom_id %}" class="main-menu-link">
+    <li class="main-menu-item {% if 'classroom/' in request.path and 'assignments' not in request.path and 'announcement' not in request.path%}selected{% endif %}">
+        Classroom
+    </li>
+</a>
+{% endif %}
+<!-----------------------------classroom-manage-------------------------------------------------------------------------------------------->
+<a href="{% url "assignments" current_classroom_id %}" class="main-menu-link">
+    <li class="main-menu-item {% if 'assignments/' in request.path and '/add' not in request.path%}selected{% endif %}">
+        Assignments
+    </li>
+</a>
+
+{% if user.role == 2 %}
+<a href="{% url "assignments_add" current_classroom_id %}" class="main-menu-link">
+    <li class="main-menu-item {% if 'assignments/add/' in request.path %}selected{% endif %}">
+        Add Assignments
+    </li>
+</a>
+{% endif %}
+<!---------------------------------Assignments-------------------------------------------------------------------------------------------------->
+<a href="#" class="main-menu-link">
+    <li class="main-menu-item">
+        Lectures
+    </li>
+</a>
+
+{% if user.role == 2 %}
+<a href="#" class="main-menu-link">
+    <li class="main-menu-item">
+        Add Lectures
+    </li>
+</a>
+{% endif %}
+<!-----------------------------------Lectures------------------------------------------------------------------------------------------------>
+<a href="{% url "announcements" current_classroom_id %}" class="main-menu-link">
+    <li class="main-menu-item {% if 'announcements/' in request.path and 'add/' not in request.path %}selected{% endif %}">
+        Announcements
+    </li>
+</a>
+
+{% if user.role == 2 %}
+<a href="{% url "announcements_add" current_classroom_id %}" class="main-menu-link">
+    <li class="main-menu-item {% if 'announcements/add/' in request.path %}selected{% endif %}">
+        Add Announcements
+    </li>
+</a>
+{% endif %}
+<!---------------------------------announcements-------------------------------------------------------------------------------------------------->

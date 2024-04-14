@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Website</title>
+    <link href="{% static "static/accounts/login_and_forms.css" %}" rel="stylesheet">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <h2>Add classroom</h2>
+        <!-- Main Section Start -->
+<form class="registration-form" method="post" action="{% url "classroomAdd" %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <ul class="register-tab-container">
+        <li>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="field-holder">
+                                <label for="user-email">Enter class name</label>
+                                {{class_form.name}}
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="field-holder">
+                                <label for="user-password">Enter class description</label>
+                                {{class_form.description}}
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="field-holder">
+                                <label for="user-password">Enter class coverpic</label>
+                                {{class_form.cover_pic}}
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="field-holder">
+                                <label for="user-password">Enter class code</label>
+                                {{class_form.code}}
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="field-holder">
+                                <label for="user-password">Enter class password</label>
+                                {{class_form.password}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="field-holder">
+                        {% if messages %}
+                        {% for message in messages  %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{message}}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="payment-holder">
+                        <input type="submit" value="Submit" class="submit-button">
+                    </div>
+                    {{class_form.non_field_errors}}
+                </div>
+            </div>
+        </li>
+    </ul>
+</form>
+
+<!-- Main Section End -->
+    </main>
+</body>
+</html>
+
+

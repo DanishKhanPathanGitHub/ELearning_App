@@ -1,0 +1,96 @@
+body {
+    font-family: sans-serif;
+    margin: 0; /* Reset default margin */
+}
+
+header {
+    background: linear-gradient(to bottom right, #290974, #1639d5);
+    color: white;
+    padding: 20px;
+}
+
+.header-title {
+    font-size: 2em;
+    margin: 0;
+}
+
+.header-nav {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header-nav-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header-nav-item {
+    margin-right: 20px;
+}
+
+.header-nav-link {
+    text-decoration: none;
+    color: white;
+}
+/* Target the form itself */
+
+.form-fields-set {
+    margin: 0 auto; /* Center the form horizontally */
+    width: 30%; /* Set a fixed width for the form */
+    padding: 20px; /* Add some padding for better spacing */
+    border: 1px solid #ddd; /* Add a thin border */
+    border-radius: 5px; /* Add rounded corners */
+    background-color: #f5f5f5; /* Set a light background color */
+  }
+  
+  /* Style the form labels */
+  .form-fields-set label {
+    display: block; /* Make labels appear on separate lines */
+    margin-bottom: 5px; /* Add some space below labels */
+    font-weight: bold; /* Make labels stand out */
+  }
+  
+  /* Style the form input fields */
+  .form-fields-set input[type="text"],
+  .form-fields-set input[type="email"],
+  .form-fields-set input[type="password"] {
+    width: 70%; /* Set full width for each field */
+    padding: 10px; /* Add padding for better user experience */
+    border: 1px solid #ccc; /* Add a thin border */
+    border-radius: 3px; /* Add rounded corners */
+    box-sizing: border-box; /* Include padding in the width calculation */
+    margin-bottom: 15px; /* Add space between fields vertically */
+  }
+  
+  /* Style for the "Register as" field */
+  .form-fields-set .register-as {
+    width: 100%; /* Set full width for the "Register as" field */
+    margin-bottom: 15px; /* Add space below the field */
+  }
+  
+  /* (Optional) Style for the submit button */
+  .form-fields-set input[type="submit"] {
+    background-color: #1639d5; /* Green color for the button */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Adjust padding for the button */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Add rounded corners */
+    cursor: pointer; /* Change cursor to indicate clickability */
+  }
+  
+  /* (Optional) Style the submit button on hover */
+  .form-fields-set input[type="submit"]:hover {
+    background-color: #290974; /* Darker green on hover */
+  }
+  
+  /* Style for error messages */
+  .alert-warning {
+    color: #290974; /* Change the text color to a suitable shade for warnings */
+    background-color: #fff3cd; /* Use a light yellow background for warnings */
+    border-color: #ffeeba; /* Add a border color that matches the background */
+  }
+  

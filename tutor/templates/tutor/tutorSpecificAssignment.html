@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-classroom</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static "static/tutor/tutorSpecificAssignment.css" %}" rel="stylesheet">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="main-menu">
+            <nav class="main-menu-nav">
+                <ul class="main-menu-list">
+                    {% include "menu.html" with current_classroom_id=current_classroom_id %}
+                    <!-- Add more menu items as needed -->
+                </ul>
+            </nav>
+        </div>
+        {% if messages %}
+        {% for message in messages  %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{message}}
+            </div>
+        {% endfor %}
+        {% endif %}
+        <section class="main-content" id="class-desc">
+            <section class="left-content" id="assignment-content">
+                <p>{{assignment.name}}</p> 
+                <button class="submit-button">
+                    <a href="{{ assignment.assignment.url }}" target="_blank" style="color:unset">
+                        <i class="fa fa-file-pdf-o">
+                            View Assignment
+                        </i> 
+                    </a>
+                </button>
+                <form class="registration-form" method="post" action="{% url "tutorSpecificAssignment" current_classroom_id assignment.id %}" >
+                    {% csrf_token %}
+                    <ul class="register-tab-container">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="field-holder">
+                                                <p>current due date:{{assignment.due_date}}</p>
+                                                {{assignment_form.due_date}}
+                                                <label for="user-email">Update due date</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="field-holder">
+                                                <p>current late submission allowance: {{assignment.late_submission_allow}}</P>
+                                                <label for="user-email">Allow late submissions</label>
+                                                {{assignment_form.late_submission_allow}}
+                                            </div>
+                                        </div><br>
+                                        <div class="payment-holder">
+                                            <input type="submit" value="Update" class="submit-button">
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                
+                            </div>
+                    </ul>
+                </form>
+                <form class="registration-form" method="post" action="{% url "SpecificAssignment_delete" id=current_classroom_id asid=assignment.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <button class="submit-button" type="submit" onclick="return confirm('Confirm delete?')">Delete Assignment
+                    </button>
+                </form>
+            </section>
+            <section class="right-content" id="submissions-content">
+                <h4>submissions</h4>
+                <div class="table-container">
+                <table>
+                    <tr>
+                        <td>name</td>
+                        <td>submission status</td>
+                        <td>submitted file</td>
+                        <td>submission date</td>
+                        <td>Due date</td>
+                        <td>Late submission</td>
+                        <td>Approval</td>
+                    </tr>
+                    {% for student, submission in StudentsSubmissions.items %}
+                    <tr>
+                        <td>{{student.user.firstname}}</td>
+                        {% if submission %}
+                        <td>Done</td>
+                        <td>
+                            <a href="{{ submission.submitted_file.url }}" target="_blank" style="color:unset">
+                                <i class="fa fa-file-pdf-o">
+                                    View
+                                </i> 
+                            </a>
+                        </td>
+                        <td>{{submission.upload_date}}</td>
+                        <td>{{assignment.due_date|date}}</td>
+                        <td>{{submission.late_submission}}</td>
+                        <td>
+                            {% if submission.is_approved %}
+                            Approved
+                            {% else %}
+                            <form class="registration-form" method="GET" action="{% url "tutorSpecificAssignment" id=current_classroom_id asid=assignment.id %}">
+                                {% csrf_token %}
+                                <button type="submit" name="approval" value="{{student.id}}"onclick="return confirm('Confirm approval')">approve
+                                </button>
+                            </form>
+                            {% endif %}
+                        </td>
+                        {% else %}
+                        <td>False</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                    </tr>
+                </table>
+            </div>
+            </section>
+        </section>
+    </main>
+</body>
+</html>

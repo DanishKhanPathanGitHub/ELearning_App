@@ -3,10 +3,19 @@
     <br><br><br>
     <nav class="header-nav">
         <ul class="header-nav-list">
+            {% if user.is_authenticated %}
             <li class="header-nav-item"><a href="{% url "home" %}" class="header-nav-link">Home</a></li>
             <li class="header-nav-item"><a href="#" class="header-nav-link">Profile</a></li>
-            <li class="header-nav-item"><a href="#" class="header-nav-link">Login</a></li>
-            <li class="header-nav-item"><a href="#" class="header-nav-link">Logout</a></li>
+            <li class="header-nav-item"><a href="{% url "logout" %}" class="header-nav-link">Logout</a></li>
+            {% if user.role == 1 %}
+            <li class="header-nav-item"><a href="{% url "classroomJoin" %}" class="header-nav-link">Join class</a></li>
+            {% else %}
+            <li class="header-nav-item"><a href="{% url "classroomAdd" %}" class="header-nav-link">Create class</a></li>
+            {% endif %}
+            {% else %}
+            <li class="header-nav-item"><a href="{% url "login" %}" class="header-nav-link">Login</a></li>
+            <li class="header-nav-item"><a href="{% url "registerUser" %}" class="header-nav-link">Register</a></li>
+            {% endif %}
         </ul>
     </nav>
 </header>

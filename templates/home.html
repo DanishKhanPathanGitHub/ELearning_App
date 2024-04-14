@@ -1,10 +1,59 @@
-{% extends 'base.html' %}
-
-{% block content %}
-    <h2>My Classes</h2>
-    <section id="classes">
-        <a href="#" class="class-box">Class 1</a>
-        <a href="#" class="class-box">Class 2</a>
-    </section>
-    <a href="#" class="add-class-button">Add Class</a>
-{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Website</title>
+    <link href="{% static "css/home.css" %}" rel="stylesheet">
+</head>
+<body>
+    {% include "header.html" %}
+    {% if messages %}
+        {% for message in messages  %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <main>
+        {% if user.is_authenticated %}
+            {% if user.role == 1 %}
+                {% if classrooms %}
+                    <h2>My Classes</h2>
+                {% else %}
+                    <p>Join the classroom</p>
+                {% endif %}
+            {% else %}
+                {% if classrooms %}
+                    <h2>My Classes</h2>
+                {% else %}
+                    <a href="#"><p>Create Your first class</p></a>
+                {% endif %}
+            {% endif %}
+            <section id="classes">
+                {% if classrooms %}
+                  <ul class="classroom-list">  
+                    {% for classroom in classrooms %}
+                      <li class="classroom-card">
+                        <a href="{% url 'classroom' classroom.id %}"style="text-decoration:none;">
+                          <img src="{{ classroom.cover_pic.url }}" alt="Class {{ classroom.name }} cover image" width="100%" class="card-image">
+                          <div class="card-content">
+                            <h3>{{ classroom.name }}</h3>  <p>Created by: {{ classroom.tutor.user.firstname }}</p>
+                            <p>Created at: {{ classroom.created_at|date }}</p>
+                          </div>
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </section>
+        {% else %}
+            <h3>Login to join the E-classroom today</h3>
+        {% endif %}
+    </main>
+</body>
+</html>

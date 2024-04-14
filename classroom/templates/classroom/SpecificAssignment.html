@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-classroom</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static "static/classroom/SpecificAssignment.css" %}" rel="stylesheet">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="main-menu">
+            <nav class="main-menu-nav">
+                <ul class="main-menu-list">
+                    {% include "menu.html" with current_classroom_id=current_classroom_id %}
+                    <!-- Add more menu items as needed -->
+                </ul>
+            </nav>
+        </div>
+        {% if messages %}
+        {% for message in messages  %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{message}}
+            </div>
+        {% endfor %}
+        {% endif %}
+        <section class="main-content" id="class-desc">
+                <p>{{assignment.name}}</p> 
+                <button class="submit-button">
+                    <a href="{{ assignment.assignment.url }}" target="_blank" style="color:unset">
+                        <i class="fa fa-file-pdf-o">
+                            Download the Assignment
+                        </i> 
+                    </a>
+                </button>
+                <p>{{assignment.description}}</p>
+                <p>Due date: {{assignment.due_date}}</p>
+                    
+                {% if check.is_approved %} 
+                <button class="submit-button">
+                    <a href="{{ assignment.assignment.url }}" target="_blank" style="color:unset">
+                        <i class="fa fa-file-pdf-o">
+                            Your Submitted Assignmengt
+                        </i> 
+                    </a>
+                </button>
+                Assignmengt approved 
+                {% else %}
+                {% if submission_status %}
+                <button class="submit-button">
+                    <a href="{{ check.submitted_file.url }}" target="_blank" style="color:unset">
+                        <i class="fa fa-file-pdf-o">
+                            Your Submitted Assignment
+                        </i> 
+                    </a>
+                    <br>
+                </button><br><br>
+                <form class="registration-form" method="post" action="{% url "SubmissionDelete" id=current_classroom_id asid=assignment.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <button class="submit-button" type="submit">Delete submission
+                    </button>
+                </form>
+                <p>Submission status: submitted
+                <br>Wait for approval or change your submission
+                </p>
+                <form class="registration-form" method="post" action="{% url "SpecificAssignment" id=current_classroom_id asid=assignment.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <button class="submit-button">
+                        {{submission_form.submitted_file}}
+                    </button>
+                    <button class="submit-button" type="submit">Submit
+                    </button>
+                </form>
+                {% else %} 
+                <form class="registration-form" method="post" action="{% url "SpecificAssignment" id=current_classroom_id asid=assignment.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <button class="submit-button">
+                        {{submission_form.submitted_file}}
+                    </button>
+                    <button class="submit-button" type="submit">Submit
+                    </button>
+                </form>
+                <p>Submission status: pending</p>
+                {% endif %}   
+                {% endif %}
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-classroom</title>
+    <link href="{% static "static/classroom/announcements.css" %}" rel="stylesheet">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="main-menu">
+            <nav class="main-menu-nav">
+                <ul class="main-menu-list">
+                    {% include "menu.html" with current_classroom_id=current_classroom_id %}
+                    <!-- Add more menu items as needed -->
+                </ul>
+            </nav>
+        </div>
+        <section class="main-content" id="class-desc">
+            <h3>Announcements</h3>
+            {% if request.user.role == 1 %}
+            <div class="filter-buttons">
+                <form action="" method="get">
+                    <button type="submit" name="filter" value="latest" class="filter-btn {% if filter == 'latest' %}active{% endif %}">Latest</button>
+                    <button type="submit" name="filter" value="unread" class="filter-btn {% if filter == 'unread' %}active{% endif %}">Unread</button>
+                </form>
+            </div><br>
+            {% endif %}
+            {% if not announcement %}No announcements{% endif %}
+            <br>   
+            {% if filter == 'latest' or request.user.role == 2 %}  
+            {% for announcement in announcements %}
+            {% if request.user.role == 1 %}
+            <a href="{% url "SpecificAnnouncement" current_classroom_id announcement.id %}" style="text-decoration: none;">
+            {% else %}
+            <a href="{% url "tutorSpecificAnnouncement" current_classroom_id announcement.id %}" style="text-decoration: none;">
+            {% endif %}
+            <div class="announcement-box">
+                <div class="announcement-content">
+                    <h3>{{announcement.title}}</h3>
+                    <p>{{announcement.content|truncatechars:60}}</p>
+                </div>
+                <div class="announcement-date">
+                    <small>{{announcement.upload_date}}</small>
+                </div>
+            </div>
+            </a>
+            {% endfor %}
+            {% elif filter == 'unread' %}
+            {% for announcement in unread_announcemnets %}
+            <a href="{% url "SpecificAnnouncement" current_classroom_id announcement.id %}" style="text-decoration: none;">
+            <div class="announcement-box">
+                <div class="announcement-content">
+                    <h3>{{announcement.title}}</h3>
+                    <p>{{announcement.content|truncatechars:60}}</p>
+                </div>
+                <div class="announcement-date">
+                    <small>{{announcement.upload_date}}</small>
+                </div>
+            </div>
+            </a>
+            {% endfor %}
+            {% endif %}
+        </section>            
+    </main>
+</body>
+</html>
