@@ -19,6 +19,16 @@
             </nav>
         </div>
         <section class="main-content" id="class-desc">
+            {% if messages %}
+                {% for message in messages  %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
             <h3>Announcements</h3>
             {% if request.user.role == 1 %}
             <div class="filter-buttons">
@@ -28,7 +38,7 @@
                 </form>
             </div><br>
             {% endif %}
-            {% if not announcement %}No announcements{% endif %}
+            {% if not announcements %}No announcements{% endif %}
             <br>   
             {% if filter == 'latest' or request.user.role == 2 %}  
             {% for announcement in announcements %}

@@ -1,12 +1,12 @@
 {% if user.role == 2 %}
-<a href="{% url "classroom" current_classroom_id %}" class="main-menu-link">
-    <li class="main-menu-item {% if 'classroom/' in request.path and 'assignments' not in request.path and 'announcement' not in request.path%}selected{% endif %}">
+<a href="{% url "tutorClassroom" current_classroom_id %}" class="main-menu-link">
+    <li class="main-menu-item {% if 'tutorClassroom/' in request.path and 'assignments' not in request.path and 'announcement' not in request.path and 'LecturePlaylists' not in request.path%}selected{% endif %}">
         Manage classroom
     </li>
 </a>
 {% else %}
 <a href="{% url "classroom" current_classroom_id %}" class="main-menu-link">
-    <li class="main-menu-item {% if 'classroom/' in request.path and 'assignments' not in request.path and 'announcement' not in request.path%}selected{% endif %}">
+    <li class="main-menu-item {% if 'classroom/' in request.path and 'assignments' not in request.path and 'announcement' not in request.path and 'LecturePlaylists' not in request.path%}selected{% endif %}">
         Classroom
     </li>
 </a>
@@ -26,20 +26,20 @@
 </a>
 {% endif %}
 <!---------------------------------Assignments-------------------------------------------------------------------------------------------------->
-<a href="#" class="main-menu-link">
-    <li class="main-menu-item">
+<a href="{% url "LecturePlaylists" current_classroom_id %}" class="main-menu-link">
+    <li class="main-menu-item {% if 'LecturePlaylists' in request.path and '/add_lecture' not in request.path%}selected{% endif %}">
         Lectures
     </li>
 </a>
 
 {% if user.role == 2 %}
-<a href="#" class="main-menu-link">
-    <li class="main-menu-item">
+<a href="{% url "lecture_add" current_classroom_id 0 %}" class="main-menu-link">
+    <li class="main-menu-item {% if 'LecturePlaylists' and '/add_lecture' in request.path%}selected{% endif %}">
         Add Lectures
     </li>
 </a>
 {% endif %}
-<!-----------------------------------Lectures------------------------------------------------------------------------------------------------>
+<!-----------------------------------Lectures & playlists------------------------------------------------------------------------------------------------>
 <a href="{% url "announcements" current_classroom_id %}" class="main-menu-link">
     <li class="main-menu-item {% if 'announcements/' in request.path and 'add/' not in request.path %}selected{% endif %}">
         Announcements

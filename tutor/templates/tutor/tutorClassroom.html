@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-classroom</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static "static/tutor/tutorClassroom.css" %}" rel="stylesheet">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="main-menu">
+            <nav class="main-menu-nav">
+                <ul class="main-menu-list">
+                    {% include "menu.html" with current_classroom_id=current_classroom_id %}
+                    <!-- Add more menu items as needed -->
+                </ul>
+            </nav>
+        </div>
+            <section class="main-content" id="class-desc">
+                {% if messages %}
+                    {% for message in messages  %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <section class="left-content">
+                    <h3>{{Class.name}}</h3>
+                    <p>Created at: {{Class.created_at}}</p>
+                    {{Class.description}}
+                    <br><br>
+                    <div class="warning">
+                        <form class="registration-form" method="GET" action="{% url "tutorClassroom" id=current_classroom_id%}">
+                            {% csrf_token %}
+                            <button class="delete-button" type="submit" onclick="return confirm('Confirm approval')">Deactivate Claassroom
+                            </button>
+                        </form>
+                    </div>
+                </section>
+                <section class="right-content">
+                    Students 
+                    <br><br>
+                    <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Student Email</th>
+                            <th>Profile</th>
+                        </tr>
+                        {% if class_students %}
+                        {% for student in class_students  %}
+                        <tr>
+                            <td>{{student.user.username}}</td>
+                            <td>{{student.user.email}}</td>
+                            <td>
+                                <a href="{% url "ClassroomStudent" current_classroom_id student.id %}" style="color:unset">
+                                    <i class="fa fa-eye">
+                                        View 
+                                    </i> 
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        {% endif %}
+                    </table></div>
+                </section> 
+            </section>
+    </main>
+</body>
+</html>

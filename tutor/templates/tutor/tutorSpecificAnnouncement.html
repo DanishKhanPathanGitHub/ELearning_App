@@ -20,6 +20,16 @@
             </nav>
         </div>
         <section class="main-content" id="class-desc">
+        {% if messages %}
+            {% for message in messages  %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
             <h3>{{announcement.title}}</h3>
             <p>{{announcement.content}}</p>
             {% if announcement.file %}
@@ -33,14 +43,14 @@
             </button>
             {% endif %}
             {% if announcement.link %}
+            <a href="{% if announcement.tutor_link %}{{announcement.tutor_link}}{% else %}{{ announcement.link }}{% endif %}" target="_blank" style="color:unset; text-decoration:none;">
             <button class="submit-button">
-                <a href="{{ announcement.link }}" target="_blank" style="color:unset; text-decoration:none;">
                     <i class="fa fa-link">
                         Link
                     </i> 
-                </a>
                 <br>
             </button>
+            </a>
             {% endif %}
             <br><br>
             <form method="POST" action="{% url "tutorSpecificAnnouncement" id=current_classroom_id anid=anid  %}">

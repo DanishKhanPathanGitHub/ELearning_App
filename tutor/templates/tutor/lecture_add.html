@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-classroom</title>
+    <link href="{% static "static/tutor/assignments_add.css" %}" rel="stylesheet">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="main-menu">
+            <nav class="main-menu-nav">
+                <ul class="main-menu-list">
+                    {% include "menu.html" with current_classroom_id=current_classroom_id %}
+                    <!-- Add more menu items as needed -->
+                </ul>
+            </nav>
+        </div>
+        <section class="main-content" id="class-desc">
+            <h3>Add Lecture</h3>
+            <form class="registration-form" method="post" action="{% url "assignments_add" current_classroom_id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <ul class="register-tab-container">
+                    <li>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="field-holder">
+                                            <label for="user-email">Attatch file</label>
+                                            {{assignment_form.assignment}}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="field-holder">
+                                            <label for="user-password">name</label>
+                                            {{assignment_form.name}}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="field-holder">
+                                            <label for="user-email">Add description</label>
+                                            {{assignment_form.description}}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="field-holder">
+                                            <label for="user-email">set due date</label>
+                                            {{assignment_form.due_date}}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="field-holder">
+                                            <label for="user-email">Allow late submissions</label>
+                                            {{assignment_form.late_submission_allow}}
+                                        </div>
+                                    </div>
+                                    <div class="payment-holder">
+                                        <input type="submit" value="Submit" class="submit-button">
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="field-holder">
+                                    {% if messages %}
+                                    {% for message in messages  %}
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        {{message}}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

@@ -42,7 +42,10 @@ header {
     width: 200px; /* Adjust width as needed */
     float: left; /* Float to left */
 }
-
+.selected {
+    color: #ffffff; /* Text color for selected link */
+    background-color: #1639d5; /* Background color for selected link */
+}
 .main-menu-nav {
     padding: 0px;
 }
@@ -66,26 +69,29 @@ header {
     color: black;
     font-weight: bold;
 }
-.selected {
-    color: #ffffff; /* Text color for selected link */
-    background-color: #1639d5; /* Background color for selected link */
-}
 
 .main-content {
     padding: 20px;
     margin-left: 220px; /* Ensure content doesn't overlap with the menu */
 }
 
+/* Submit Button */
 .submit-button {
-    background-color: white;
+    background-color: #1639d5;
     /* Light blue color */
-    color: #1639d5;
+    color: white;
     padding: 10px 20px;
-    border: 2px solid #1639d5;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
 }
-.submit-button:hover {
-    background-color: #1639d5;
-    color: #ffffff;
+img {
+    width: 100px; /* Adjust the width as needed */
+    height: 100px; /* Adjust the height as needed */
+    border-radius: 50%; /* Make the image circular */
+    margin-right: 10px; /* Add some space between the image and text */
+}
+
+p {
+    margin: 5px 0; /* Add margin to separate paragraphs */
 }

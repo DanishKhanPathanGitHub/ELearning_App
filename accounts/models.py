@@ -71,7 +71,7 @@ class User(AbstractBaseUser):
     
 class userProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_pic = models.ImageField(upload_to='users/profile_pics', blank=True, null=True)
+    profile_pic = models.ImageField(upload_to='students/profile_pics', blank=True, null=True, default='students/profile_pics/male.png')
     country = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)

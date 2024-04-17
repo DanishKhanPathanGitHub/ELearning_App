@@ -20,6 +20,17 @@ class Classroom(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def deactivate(self):
+        return True
+    
+class StudentClassroom(models.Model):
+    student = models.ForeignKey(userProfile, on_delete=models.CASCADE)
+    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
+    joined_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('student', 'classroom')
 
 class Assignment(models.Model):
     name = models.CharField(max_length=50)
@@ -59,9 +70,36 @@ class Announcement(models.Model):
     read_status = models.ManyToManyField(userProfile, related_name='students_read')
     upload_date = models.DateField(auto_now_add=True)
     link = models.URLField(max_length=1000, null=True, blank=True)
+    tutor_link = models.URLField(max_length=1000, null=True, blank=True)
     class Meta:
         verbose_name = ("announcement")
         verbose_name_plural = ("announcements")
 
     def __str__(self):
         return self.title
+    
+class Playlist(models.Model):
+    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = ("Playlist")
+        verbose_name_plural = ("Playlists")
+
+    def __str__(self):
+        return self.name
+
+class VideoLecture(models.Model):
+    name = models.CharField(max_length=250)
+    video_link = models.URLField(max_length=1000)
+    notes = models.FileField(upload_to='class/LectureNotes', null=True, blank=True)
+    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE) 
+
+    class Meta:
+        verbose_name = ("VideoLecture")
+        verbose_name_plural = ("VideoLectures")
+    
+    def __str__(self):
+        return self.name
+
+    

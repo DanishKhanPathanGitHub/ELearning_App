@@ -38,8 +38,7 @@ header {
 }
 
 .main-menu {
-    background-color: #f0f0f0;
-    height: 100vh; /* Set height to occupy full viewport height */
+    max-height: 100px; /* Set height to occupy full viewport height */
     width: 200px; /* Adjust width as needed */
     float: left; /* Float to left */
 }
@@ -78,6 +77,7 @@ header {
 }
 
 .assignment-container {
+    max-height: 800px;
     display: flex; /* Allow posts to arrange horizontally */
     flex-wrap: wrap; /* Wrap posts to fit container width */
     margin: 0 auto; /* Center the container horizontally */
@@ -121,6 +121,9 @@ header {
   
   .buttons {
     text-align: right; /* Align buttons to the right */
+    display: flex; /* Allow posts to arrange horizontally */
+    flex-wrap: wrap; /* Wrap posts to fit container width */
+    margin: 0 auto;
   }
   
   .buttons button {
@@ -130,8 +133,15 @@ header {
     border: none; /* Remove button border */
     border-radius: 3px; /* Rounded corners for buttons */
     cursor: pointer; /* Indicate clickable button */
+    margin-right: 5px;
+    margin-bottom: 5px;
   }
-  
+  #Delete-apply{
+    background-color:#1639d5;
+  }
+  #Delete-apply:hover{
+    background-color: #290974;
+  }
   .buttons button a {
     color: inherit; /* Inherit button text color */
     text-decoration: none; /* Remove default link underline */

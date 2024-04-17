@@ -6,11 +6,12 @@ import os
 import datetime
 from django.utils import timezone
 from .models import *
-from .forms import AssignmentSubmissionForm
+from .forms import AssignmentSubmissionForm, PlaylistForm
 from accounts.models import userProfile, User
 from django.contrib import messages
 # Create your views here.
 @login_required(login_url='login')
+@user_passes_test(check_role_student)
 def classroom(request, id):
     user = request.user  # Access the authenticated user
     if check_classroom_participant(user, id):
@@ -20,8 +21,6 @@ def classroom(request, id):
             "current_classroom_id": classroom.id,
         }
         return render(request, 'classroom/classroom.html', context)
-    else:
-        return render(request, '403.html')
 
 @login_required(login_url='login')
 @user_passes_test(check_role_student)
@@ -32,7 +31,11 @@ def classroomJoin(request):
         try:
             classroom_to_join = Classroom.objects.get(code=code, password=password)
             user_profile = userProfile.objects.get(user=request.user)
+            if classroom_to_join.students.filter(user=request.user).exists():
+                messages.warning(request, 'You are already a member of this classroom.')
+                return redirect('home')
             classroom_to_join.students.add(user_profile)
+            StudentClassroom.objects.create(student=user_profile, classroom=classroom_to_join)
             messages.success(request, 'succesfully joined the class')
             return redirect('home')
         except:
@@ -137,11 +140,53 @@ def SubmissionDelete(request, id, asid):
         else:
             messages.error(request, 'No submission found')
             return redirect(f'/classroom/{Class.id}/assignments/{asid}')
-def lectures(request, id):
-    return render(request, 'classroom/lectures.html')
 
-def SpecificLecture(request, id, lid):
-    return render(request, 'classroom/SpecificLecture.html')
+@login_required(login_url='login')
+def LecturePlaylists(request, id):
+    Class = Classroom.objects.get(id=id)
+    if check_classroom_participant(request.user, id):    
+        playlists = Playlist.objects.filter(classroom=Class)  
+        playlist_form = PlaylistForm()
+        if request.GET:
+            playlist_id = request.GET.get('playlist_id')
+            playlist = Playlist.objects.get(id=playlist_id)
+            messages.success(request, 'playlist deleted')
+            playlist.delete()
+            return redirect(f'/classroom/{Class.id}/LecturePlaylists')
+        
+        if request.POST:
+            playlist_form = PlaylistForm(request.POST)
+            if playlist_form.is_valid():
+                playlist = playlist_form.save(commit=False)
+                playlist.classroom = Class
+                playlist.save()
+                messages.success(request, 'Playlist added')
+                return redirect(f'/classroom/{Class.id}/LecturePlaylists')
+            else:
+                messages.warning(request, 'Error while adding playlist')
+                return redirect(f'/classroom/{Class.id}/LecturePlaylists')
+        context = {
+            "current_classroom_id":Class.id,
+            "playlists":playlists,
+            "playlist_form":playlist_form,
+        }
+        return render(request, 'classroom/LecturePlaylist.html', context)
+
+def SpecificPlaylist(request, id, pid):
+    Class = Classroom.objects.get(id=id)
+    if check_classroom_participant(request.user, id):
+        playlist = Playlist.objects.filter(id=pid) 
+        context = {
+            "playlist":playlist,
+            "current_classroom_id":Class.id,
+        }
+        return render(request, 'classroom/SpecificPlaylist.html', context)
+
+def SpecificLecture(request, id, pid, lid):
+    context = {
+        
+    }
+    return render(request, 'classroom/SpecificLecture.html', context)
 
 @login_required(login_url='login')
 def announcements(request, id):

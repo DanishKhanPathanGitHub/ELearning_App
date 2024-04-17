@@ -28,3 +28,13 @@ class AnnouncementForm(forms.ModelForm):
         model = Announcement
         fields = ("title", "content", "file", "link",)
 
+class PlaylistForm(forms.ModelForm):
+    
+    class Meta:
+        model = Playlist
+        fields = ("name",)
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Enter playlist name'})
+        }
+
+

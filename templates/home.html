@@ -39,7 +39,11 @@
                   <ul class="classroom-list">  
                     {% for classroom in classrooms %}
                       <li class="classroom-card">
+                        {% if request.user.role == 2 %}
+                            <a href="{% url 'tutorClassroom' classroom.id %}"style="text-decoration:none;">
+                        {% else %}
                         <a href="{% url 'classroom' classroom.id %}"style="text-decoration:none;">
+                        {% endif %}
                           <img src="{{ classroom.cover_pic.url }}" alt="Class {{ classroom.name }} cover image" width="100%" class="card-image">
                           <div class="card-content">
                             <h3>{{ classroom.name }}</h3>  <p>Created by: {{ classroom.tutor.user.firstname }}</p>

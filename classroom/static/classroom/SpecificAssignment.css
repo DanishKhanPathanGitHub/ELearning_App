@@ -38,7 +38,6 @@ header {
 }
 
 .main-menu {
-    background-color: #f0f0f0;
     height: 100vh; /* Set height to occupy full viewport height */
     width: 200px; /* Adjust width as needed */
     float: left; /* Float to left */

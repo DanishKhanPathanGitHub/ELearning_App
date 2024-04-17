@@ -66,26 +66,64 @@ header {
     color: black;
     font-weight: bold;
 }
+
 .selected {
     color: #ffffff; /* Text color for selected link */
     background-color: #1639d5; /* Background color for selected link */
 }
-
 .main-content {
+    display: flex;
+    flex-direction: row;
     padding: 20px;
+    height: 100%;
     margin-left: 220px; /* Ensure content doesn't overlap with the menu */
 }
-
-.submit-button {
-    background-color: white;
-    /* Light blue color */
-    color: #1639d5;
-    padding: 10px 20px;
-    border: 2px solid #1639d5;
+.delete-button {
+    padding: 15px;
+    background-color:#290974;
+    color: #ffffff;
+    border: 2px solid #ffffff;
     border-radius: 5px;
     cursor: pointer;
 }
-.submit-button:hover {
-    background-color: #1639d5;
-    color: #ffffff;
+.table-container {
+    max-height: 300px; /* Adjust the maximum height as needed */
+    overflow-y: auto;
+    border: 1px solid #ccc;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    border-right: 2px solid #ddd;
+}
+th {
+    color: #290974;
+    font-size: large;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+td {
+    font-size: small;
+}
+
+.left-content {
+    width: 40%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border-right: 2px solid #1639d5;
+}
+.right-content {
+    width: 60%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+

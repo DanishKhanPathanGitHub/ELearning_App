@@ -10,20 +10,32 @@
 <body>
     {% include "header.html" %}
     <main>
-        <div class="main-menu">
-            <nav class="main-menu-nav">
-                <ul class="main-menu-list">
-                    {% include "menu.html" with current_classroom_id=current_classroom_id %}
-                    <!-- Add more menu items as needed -->
-                </ul>
-            </nav>
+        <div class="container">
+            <div class="main-menu">
+                <nav class="main-menu-nav">
+                    <ul class="main-menu-list">
+                        {% include "menu.html" with current_classroom_id=current_classroom_id %}
+                        <!-- Add more menu items as needed -->
+                    </ul>
+                </nav>
+            </div>
+            <section class="main-content" id="class-desc">
+                {% if messages %}
+                    {% for message in messages  %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <h3>{{classroom.name}}</h3>
+                <p>Created at: {{classroom.created_at}}</p>
+                <p>Created by: {{classroom.tutor}}</p>
+                {{classroom.description}}
+            </section>
         </div>
-        <section class="main-content" id="class-desc">
-            <h3>{{classroom.name}}</h3>
-            <p>Created at: {{classroom.created_at}}</p>
-            <p>Created by: {{classroom.tutor}}</p>
-            {{classroom.description}}
-        </section>
     </main>
 </body>
 </html>

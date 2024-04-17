@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-classroom</title>
+    <link href="{% static "static/classroom/assignments.css" %}" rel="stylesheet">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="main-menu">
+            <nav class="main-menu-nav">
+                <ul class="main-menu-list">
+                    {% include "menu.html" with current_classroom_id=current_classroom_id %}
+                    <!-- Add more menu items as needed -->
+                </ul>
+            </nav>
+        </div>
+        <section class="main-content" id="class-desc">
+          {% if messages %}
+            {% for message in messages  %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{message}}
+                </div>
+            {% endfor %}
+          {% endif %}
+            <h3>playlists</h3>
+            <div class="assignment-container">
+            {% if not playlists %}
+                No playlists
+            {% endif %}
+                {% if user.role == 2 %}
+                <div class="post">
+                    <!-- name and des -->
+                    <form method="POST" action="{% url "LecturePlaylists" id=current_classroom_id %}">
+                        {% csrf_token %}
+                    <div class="assignment-info">
+                      <h1>
+                        <p class="assignment-name">{{playlist_form.name}}</p>
+                      </h1>
+                    </div>
+                    <div class="buttons">
+                      <button type="submit" class="apply">
+                          Add playlist
+                      </button>
+                      </form>
+                    </div>      
+                  </div>
+                  {% endif %}
+            {% if playlists %}
+            <!-- playlist post -->
+                {% for playlist in playlists %}
+                <div class="post">
+                  <!-- name and des -->
+                  <div class="assignment-info">
+                    <h1>
+                      <p class="assignment-name">{{playlist.name}}</p>
+                    </h1>
+                  </div>
+                  <div class="buttons">
+                    <button type="button" class="apply"><a href="{% url "SpecificPlaylist" id=current_classroom_id pid=playlist.id%}">
+                      View playlist
+                    </a></button>
+                    {% if user.role == 2 %}
+                    <form method="GET" action="{% url "LecturePlaylists" id=current_classroom_id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="apply" id="Delete-apply" name="playlist_id" value="{{playlist.id}}" onclick="return confirm('Confirm delete?All files and lectures wulll be deleted')">
+                        Delete playlist
+                    </button>
+                    </form>
+                    {% endif %}
+                  </div>      
+                </div>
+                <!-- playlist post end-->
+                {% endfor %}
+              </div>
+              {% endif %}
+        </section>
+    </main>
+</body>
+</html>

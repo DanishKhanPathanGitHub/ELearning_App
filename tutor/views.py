@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from classroom.models import Classroom, Assignment, AssignmentSubmission, Announcement
+from classroom.models import *
 from django.contrib.auth.decorators import login_required, user_passes_test
-from accounts.utils import check_role_student, check_role_tutor
+from accounts.utils import check_role_tutor
 from classroom.utils import check_classroom_participant
 from .forms import *
 from accounts.models import userProfile
@@ -10,12 +10,58 @@ from django.contrib import messages
 # Create your views here.
 @login_required(login_url='login')
 @user_passes_test(check_role_tutor)
+def tutorClassroom(request, id):
+    user = request.user  # Access the authenticated user
+    if check_classroom_participant(user, id):
+        Class = Classroom.objects.get(id=id)  
+        class_students = Class.students.all()
+        context = {
+            "Class":Class,
+            "current_classroom_id": Class.id,
+            "class_students":class_students,
+        }
+        return render(request, 'tutor/tutorClassroom.html', context)
+
+@login_required(login_url='login')
+@user_passes_test(check_role_tutor)
+def ClassroomStudent(request, id, stid):
+    if check_classroom_participant(request.user, id):
+        Class = Classroom.objects.get(id=id)    
+        student = userProfile.objects.get(id=stid)
+        joined_date = StudentClassroom.objects.get(classroom=Class, student=student).joined_date
+        if request.GET:
+            try:
+                for assignment in Assignment.objects.filter(classroom=Class):
+                    submission = AssignmentSubmission.objects.get(assignment=assignment, student=student)
+                    submission.submitted_file.delete()
+                    submission.delete()
+            except:
+                pass
+            try:
+                for announcement in Announcement.objects.filter(classroom=Class):
+                    announcement.read_status.remove(student)
+            except:
+                pass
+            StudentClassroom.objects.get(student=student, classroom=Class).delete()
+            Class.students.remove(student)
+            return redirect(f'/tutor/tutorClassroom/{Class.id}/')
+        context = {
+            "Class":Class,
+            "current_classroom_id": Class.id,
+            "student":student,
+            "joined_date":joined_date,
+        }
+        return render(request, 'tutor/ClassroomStudent.html', context)
+
+@login_required(login_url='login')
+@user_passes_test(check_role_tutor)
 def classroomAdd(request):
     if request.POST:
         class_form = ClassroomForm(request.POST, request.FILES)
         if class_form.is_valid():
             Class = class_form.save(commit=False)
             Class.tutor = userProfile.objects.get(user=request.user)
+            Playlist(classroom=Class, name="Playlist-1").save()
             Class.save()
             return redirect('home')
     else:
@@ -107,10 +153,6 @@ def SpecificAssignment_delete(request, id, asid):
     if check_classroom_participant(request.user, id):
         Class = Classroom.objects.get(id=id)
         assignment = Assignment.objects.get(id=asid)
-        assignment.assignment.delete()
-        submitted_assignments=AssignmentSubmission.objects.filter(assignment=assignment)
-        for file in submitted_assignments:
-            file.submitted_file.delete()
         assignment.delete()
         messages.success(request, 'Assignment Delted')
         return redirect(f'/classroom/{Class.id}/assignments/')
@@ -163,11 +205,17 @@ def SpecificAnnouncement(request, id, anid):
             "anid":anid,
         }
         return render(request, 'tutor/tutorSpecificAnnouncement.html', context)
-    
 
-def manage_students(request, id):
-    return render(request, 'tutor/manage.students.html')
+@login_required(login_url='login')
+@user_passes_test(check_role_tutor)   
+def LectureAdd(request, id, pid):
+     Class = Classroom.objects.get(id=id)
+     if check_classroom_participant(request.user, id):
 
-def student_profile_manage(request, id, stid):
-    return render(request, 'tutor/student_profile_manage.html')
+        context = {
+            "current_classroom_id":Class.id,
+            "pid":pid
+        }
+        return render(request, 'tutor/lecture_add.html', context)         
+
 
