@@ -29,11 +29,22 @@
                 </div>
             {% endfor %}
           {% endif %}
-            <h3>lectures</h3>
-            <div class="assignment-container">
+            <h3>{{playlist}}: lectures</h3>
             {% if not lectures %}
                 No lectures
-            {% else %}
+            {% endif %}
+            <div class="assignment-container">
+            {% if user.role == 2 %}
+              <div class="post">
+                <div class="buttons">
+                  <a href="{% url "lecture_add" current_classroom_id pid %}">
+                  <button type="button" class="apply">  
+                    Add lecture
+                  </button></a>
+                </div>      
+              </div>
+            {% endif %}
+            {% if lectures %}
             <!-- lecture post -->
                 {% for lecture in lectures %}
                 <div class="post">
@@ -44,15 +55,16 @@
                     </h1>
                   </div>
                   <div class="buttons">
-                    <button type="button" class="apply"><a href="#">
+                    <a href="{% url "SpecificLecture" current_classroom_id pid lecture.id %}">
+                    <button type="button" class="apply">
                       View lecture
-                    </a></button>
+                    </button></a>
                   </div>      
                 </div>
                 <!-- lecture post end-->
                 {% endfor %}
               </div>
-              {% endif %}
+            {% endif %}
         </section>
     </main>
 </body>

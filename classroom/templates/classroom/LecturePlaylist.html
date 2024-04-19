@@ -30,10 +30,10 @@
             {% endfor %}
           {% endif %}
             <h3>playlists</h3>
-            <div class="assignment-container">
             {% if not playlists %}
                 No playlists
             {% endif %}
+            <div class="assignment-container">
                 {% if user.role == 2 %}
                 <div class="post">
                     <!-- name and des -->
@@ -63,9 +63,9 @@
                     </h1>
                   </div>
                   <div class="buttons">
-                    <button type="button" class="apply"><a href="{% url "SpecificPlaylist" id=current_classroom_id pid=playlist.id%}">
+                    <a href="{% url "SpecificPlaylist" id=current_classroom_id pid=playlist.id%}"><button type="button" class="apply">
                       View playlist
-                    </a></button>
+                    </button></a>
                     {% if user.role == 2 %}
                     <form method="GET" action="{% url "LecturePlaylists" id=current_classroom_id %}">
                     {% csrf_token %}

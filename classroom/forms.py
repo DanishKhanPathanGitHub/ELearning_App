@@ -37,4 +37,21 @@ class PlaylistForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'placeholder': 'Enter playlist name'})
         }
 
+class VideoLectureForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        class_id = kwargs.pop('class_id', None)
+        initial_playlist = kwargs.pop('initial_playlist', None)
+
+        super(VideoLectureForm, self).__init__(*args, **kwargs)
+
+        if class_id:
+            self.fields['playlist'].queryset = Playlist.objects.filter(classroom__id=class_id)
+            
+        if initial_playlist:
+            self.fields['playlist'].initial = initial_playlist
+            
+    notes=forms.FileField(widget=forms.FileInput(attrs={"class":"btn-btn-info"}), validators=[combine_file_validator], required=False)
+    class Meta:
+        model = VideoLecture
+        fields = ("name","video_link","playlist","notes",)

@@ -6,7 +6,7 @@ import os
 import datetime
 from django.utils import timezone
 from .models import *
-from .forms import AssignmentSubmissionForm, PlaylistForm
+from .forms import AssignmentSubmissionForm, PlaylistForm, VideoLectureForm
 from accounts.models import userProfile, User
 from django.contrib import messages
 # Create your views here.
@@ -102,7 +102,7 @@ def SpecificAssignment(request, id, asid):
                     messages.success(request, 'Assignment submitted succesflly before due date')
                     return redirect(f'/classroom/{Class.id}/assignments/{asid}')
             else:
-                messages.warning('There is error while submitting assignment')
+                messages.warning(request, 'There is error while submitting assignment')
                 return redirect(f'/classroom/{Class.id}/assignments/{asid}')
         else:    
             submission_form = AssignmentSubmissionForm()
@@ -172,21 +172,32 @@ def LecturePlaylists(request, id):
         }
         return render(request, 'classroom/LecturePlaylist.html', context)
 
+@login_required(login_url='login')
 def SpecificPlaylist(request, id, pid):
     Class = Classroom.objects.get(id=id)
     if check_classroom_participant(request.user, id):
-        playlist = Playlist.objects.filter(id=pid) 
+        playlist = Playlist.objects.get(id=pid) 
+        lectures = VideoLecture.objects.filter(playlist=playlist)
         context = {
             "playlist":playlist,
+            "lectures":lectures,
             "current_classroom_id":Class.id,
+            "pid":pid,
         }
         return render(request, 'classroom/SpecificPlaylist.html', context)
 
+@login_required(login_url='login')
 def SpecificLecture(request, id, pid, lid):
-    context = {
-        
-    }
-    return render(request, 'classroom/SpecificLecture.html', context)
+    Class = Classroom.objects.get(id=id)
+    if check_classroom_participant(request.user, id):
+        playlist = Playlist.objects.get(id=pid)
+        lecture = VideoLecture.objects.get(id=lid)
+        context = {
+            "current_classroom_id":Class.id,
+            "playlist":playlist,
+            "lecture":lecture,
+        }
+        return render(request, 'classroom/SpecificLecture.html', context)
 
 @login_required(login_url='login')
 def announcements(request, id):

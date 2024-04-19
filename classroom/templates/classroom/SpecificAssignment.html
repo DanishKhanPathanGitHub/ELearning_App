@@ -31,35 +31,32 @@
         {% endif %}
         <section class="main-content" id="class-desc">
                 <p>{{assignment.name}}</p> 
-                <button class="submit-button">
-                    <a href="{{ assignment.assignment.url }}" target="_blank" style="color:unset">
+                <a href="{{ assignment.assignment.url }}" target="_blank" style="color:unset">
+                    <button class="submit-button">
                         <i class="fa fa-file-pdf-o">
                             Download the Assignment
                         </i> 
-                    </a>
-                </button>
+                    </button></a>
                 <p>{{assignment.description}}</p>
                 <p>Due date: {{assignment.due_date}}</p>
                     
                 {% if check.is_approved %} 
-                <button class="submit-button">
-                    <a href="{{ assignment.assignment.url }}" target="_blank" style="color:unset">
+                <a href="{{ assignment.assignment.url }}" target="_blank" style="color:unset">
+                    <button class="submit-button">
                         <i class="fa fa-file-pdf-o">
                             Your Submitted Assignmengt
                         </i> 
-                    </a>
-                </button>
+                    </button></a>
                 Assignmengt approved 
                 {% else %}
                 {% if submission_status %}
-                <button class="submit-button">
-                    <a href="{{ check.submitted_file.url }}" target="_blank" style="color:unset">
+                <a href="{{ check.submitted_file.url }}" target="_blank" style="color:unset">
+                    <button class="submit-button">
                         <i class="fa fa-file-pdf-o">
                             Your Submitted Assignment
                         </i> 
-                    </a>
                     <br>
-                </button><br><br>
+                </button></a><br><br>
                 <form class="registration-form" method="post" action="{% url "SubmissionDelete" id=current_classroom_id asid=assignment.id %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <button class="submit-button" type="submit">Delete submission

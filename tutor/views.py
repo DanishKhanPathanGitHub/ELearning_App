@@ -5,7 +5,7 @@ from accounts.utils import check_role_tutor
 from classroom.utils import check_classroom_participant
 from .forms import *
 from accounts.models import userProfile
-from classroom.forms import AssignmentForm, AnnouncementForm
+from classroom.forms import AssignmentForm, AnnouncementForm, VideoLectureForm
 from django.contrib import messages
 # Create your views here.
 @login_required(login_url='login')
@@ -61,9 +61,11 @@ def classroomAdd(request):
         if class_form.is_valid():
             Class = class_form.save(commit=False)
             Class.tutor = userProfile.objects.get(user=request.user)
-            Playlist(classroom=Class, name="Playlist-1").save()
             Class.save()
+            messages.success(request, "class created succesfully")
             return redirect('home')
+        else:
+            messages.warning(request, "error while adding class")
     else:
         class_form = ClassroomForm()
     context = {
@@ -211,10 +213,24 @@ def SpecificAnnouncement(request, id, anid):
 def LectureAdd(request, id, pid):
      Class = Classroom.objects.get(id=id)
      if check_classroom_participant(request.user, id):
-
+        try:
+            playlist = Playlist.objects.get(id=pid)
+        except:
+            playlist = None
+        video_lecture_form = VideoLectureForm(initial_playlist=playlist, class_id=id)
+        if request.POST:
+            video_lecture_form = VideoLectureForm(request.POST, class_id=id)
+            if video_lecture_form.is_valid():
+                video_lecture = video_lecture_form.save()
+                messages.success(request, f'Lecture Added to {video_lecture.playlist.id} successfully!')
+                return redirect(f'/classroom/{Class.id}/LecturePlaylists/{video_lecture.playlist.id}')
+            else:
+                messages.error(request, 'There is error while uploading video lecture')
         context = {
             "current_classroom_id":Class.id,
-            "pid":pid
+            "pid":pid,
+            "video_lecture_form":video_lecture_form,
+            "playlist":playlist,
         }
         return render(request, 'tutor/lecture_add.html', context)         
 

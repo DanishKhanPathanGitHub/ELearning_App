@@ -49,13 +49,13 @@
                   </div>
                   <div class="buttons">
                     {% if user.role == 1 %}
-                    <button class="apply"><a href="{% url "SpecificAssignment" id=current_classroom_id asid=assignment.id %}">
+                    <a href="{% url "SpecificAssignment" id=current_classroom_id asid=assignment.id %}"><button class="apply">
                       View assignment
-                    </a></button>
+                    </button></a>
                     {% else %}
-                    <button class="apply"><a href="{% url "tutorSpecificAssignment" id=current_classroom_id asid=assignment.id %}">
+                    <a href="{% url "tutorSpecificAssignment" id=current_classroom_id asid=assignment.id %}"><button class="apply">
                         View assignment
-                      </a></button>
+                      </button></a>
                     {% endif %}
                   </div>      
                 </div>

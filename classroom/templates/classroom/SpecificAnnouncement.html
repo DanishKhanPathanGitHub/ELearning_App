@@ -31,16 +31,16 @@
                 {% endfor %}
             {% endif %}
             <h3>{{announcement.title}}</h3>
+            <small>{{announcement.upload_date}}</small>
             <p>{{announcement.content}}</p>
             {% if announcement.file %}
+            <a href="{{ announcement.file.url }}" target="_blank" style="color:unset; text-decoration:none;">
             <button class="submit-button">
-                <a href="{{ announcement.file.url }}" target="_blank" style="color:unset; text-decoration:none;">
                     <i class="fa fa-file-pdf-o">
                         Attached file
                     </i> 
-                </a>
                 <br>
-            </button>
+            </button></a>
             {% endif %}
             {% if announcement.link %}
             <a href="{{ announcement.link }}" target="_blank" style="color:unset; text-decoration:none;">

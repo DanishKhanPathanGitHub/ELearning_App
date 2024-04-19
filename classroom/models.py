@@ -68,7 +68,7 @@ class Announcement(models.Model):
     content = models.TextField()
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
     read_status = models.ManyToManyField(userProfile, related_name='students_read')
-    upload_date = models.DateField(auto_now_add=True)
+    upload_date = models.DateTimeField(auto_now_add=True)
     link = models.URLField(max_length=1000, null=True, blank=True)
     tutor_link = models.URLField(max_length=1000, null=True, blank=True)
     class Meta:
@@ -94,7 +94,7 @@ class VideoLecture(models.Model):
     video_link = models.URLField(max_length=1000)
     notes = models.FileField(upload_to='class/LectureNotes', null=True, blank=True)
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE) 
-
+    upload_date = models.DateField(auto_now_add=True)
     class Meta:
         verbose_name = ("VideoLecture")
         verbose_name_plural = ("VideoLectures")

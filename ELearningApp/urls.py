@@ -23,6 +23,7 @@ from ELearningApp import views
 urlpatterns = ([
     path('admin/', admin.site.urls),
     path('', views.home, name="home"),
+    path('profile/', views.profile, name="profile"),
     path('', include('accounts.urls')),
     path('', include('classroom.urls')),
 ]

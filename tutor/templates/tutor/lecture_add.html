@@ -20,7 +20,7 @@
         </div>
         <section class="main-content" id="class-desc">
             <h3>Add Lecture</h3>
-            <form class="registration-form" method="post" action="{% url "assignments_add" current_classroom_id %}" enctype="multipart/form-data">
+            <form class="registration-form" method="post" action="{% url "lecture_add" current_classroom_id pid %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <ul class="register-tab-container">
                     <li>
@@ -29,32 +29,26 @@
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="field-holder">
-                                            <label for="user-email">Attatch file</label>
-                                            {{assignment_form.assignment}}
+                                            <label for="user-email">Lecture Title:</label>
+                                            {{video_lecture_form.name}}
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="field-holder">
-                                            <label for="user-password">name</label>
-                                            {{assignment_form.name}}
+                                            <label for="user-email">Lecture Link:</label>
+                                            {{video_lecture_form.video_link}}
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="field-holder">
-                                            <label for="user-email">Add description</label>
-                                            {{assignment_form.description}}
+                                            <label for="user-email">Attatch notes</label>
+                                            {{video_lecture_form.notes}}
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="field-holder">
-                                            <label for="user-email">set due date</label>
-                                            {{assignment_form.due_date}}
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="field-holder">
-                                            <label for="user-email">Allow late submissions</label>
-                                            {{assignment_form.late_submission_allow}}
+                                            <label for="user-email">Choose Playlist</label>
+                                            {{video_lecture_form.playlist}}
                                         </div>
                                     </div>
                                     <div class="payment-holder">

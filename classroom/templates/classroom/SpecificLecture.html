@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-classroom</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static "static/classroom/SpecificLecture.css" %}" rel="stylesheet">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="main-menu">
+            <nav class="main-menu-nav">
+                <ul class="main-menu-list">
+                    {% include "menu.html" with current_classroom_id=current_classroom_id %}
+                    <!-- Add more menu items as needed -->
+                </ul>
+            </nav>
+        </div>
+            <section class="main-content" id="class-desc">
+                {% if messages %}
+                    {% for message in messages  %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <section class="left-content">
+                    <h3>{{lecture.name}}</h3>
+                    <p>uploaded at: {{lecture.upload_date}}</p>
+                    <br><br>
+                    <div class="warning">
+                        <form class="registration-form" method="GET" action="{% url "SpecificLecture" current_classroom_id playlist.id lecture.id %}">
+                            {% csrf_token %}
+                            <button class="delete-button" type="submit" onclick="return confirm('Confirm approval')">Deactivate Claassroom
+                            </button>
+                        </form>
+                    </div>
+                </section>
+                <section class="right-content">
+                    Lecture
+                </section> 
+            </section>
+    </main>
+</body>
+</html>

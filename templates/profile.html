@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-classroom</title>
+    <link href="{% static "css/user_profile.css" %}" rel="stylesheet">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <section class="main-content" id="class-desc">
+            {% if messages %}
+                {% for message in messages  %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if user_profile.profile_pic %}
+                <img src="{{ user_profile.profile_pic.url }}" alt="Profile Picture">
+            {% else %}
+                <img src="{% static "images/male.png" %}" alt="Default Profile Picture">
+            {% endif %}
+            <div>
+                <p>Email: {{ user_profile.user.email }}</p>
+                <p>Firstname: {{ user_profile.user.firstname }}</p>
+                <p>Lastname: {{ user_profile.user.lastname }}</p>
+                <p>Username: {{ user_profile.user.username }}</p>
+            </div>  
+        </section>
+    </main>
+</body>
+</html>
