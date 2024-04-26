@@ -71,6 +71,10 @@ header {
     padding: 20px;
     margin-left: 220px; /* Ensure content doesn't overlap with the menu */
 }
+.classroom-desc{
+    max-height: 1000px;
+    text-align: justify;
+}
 .selected {
     color: #ffffff; /* Text color for selected link */
     background-color: #1639d5; /* Background color for selected link */

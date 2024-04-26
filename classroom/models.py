@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import User, userProfile
+from embed_video.fields import EmbedVideoField
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 # Create your models here.
 
@@ -91,7 +92,7 @@ class Playlist(models.Model):
 
 class VideoLecture(models.Model):
     name = models.CharField(max_length=250)
-    video_link = models.URLField(max_length=1000)
+    video_link = EmbedVideoField()
     notes = models.FileField(upload_to='class/LectureNotes', null=True, blank=True)
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE) 
     upload_date = models.DateField(auto_now_add=True)

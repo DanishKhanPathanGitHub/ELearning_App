@@ -30,10 +30,12 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-                <h3>{{classroom.name}}</h3>
-                <p>Created at: {{classroom.created_at}}</p>
-                <p>Created by: {{classroom.tutor}}</p>
-                {{classroom.description}}
+                <div class="classroom-desc">
+                    <h3>{{classroom.name}}</h3>
+                    <p>Created at: {{classroom.created_at}}</p>
+                    <p>Created by: {{classroom.tutor}}</p>
+                    {{classroom.description}}
+                </div>    
             </section>
         </div>
     </main>

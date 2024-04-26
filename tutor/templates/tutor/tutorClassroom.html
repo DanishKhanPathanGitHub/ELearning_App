@@ -31,9 +31,11 @@
                     {% endfor %}
                 {% endif %}
                 <section class="left-content">
-                    <h3>{{Class.name}}</h3>
-                    <p>Created at: {{Class.created_at}}</p>
-                    {{Class.description}}
+                    <div class="classroom-desc">
+                        <h3>{{Class.name}}</h3>
+                        <p>Created at: {{Class.created_at}}</p>
+                        <p>{{Class.description}}</p>
+                    </div>
                     <br><br>
                     <div class="warning">
                         <form class="registration-form" method="GET" action="{% url "tutorClassroom" id=current_classroom_id%}">

@@ -1,6 +1,8 @@
 from django import forms
 from .models import *
 from accounts.utils import image_validator
+from django_countries.fields import CountryField
+
 class userForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput())
     class Meta:
@@ -18,10 +20,16 @@ class userForm(forms.ModelForm):
         if len(password)<8:
             raise forms.ValidationError('Password must be atleast 8 characters long')
 
-class userProfileForm(forms.ModelForm):
-    profile_pic=forms.ImageField(widget=forms.FileInput(attrs={"class":"btn-btn-info"}), validators=[image_validator])
+class userMiniForm(forms.ModelForm):
     
     class Meta:
+        model = User
+        fields = ("firstname", "lastname", "username",)
+
+
+class userProfileForm(forms.ModelForm):
+    profile_pic=forms.ImageField(widget=forms.FileInput(attrs={"class":"btn-btn-info"}), validators=[image_validator], required=False)
+    class Meta:
         model = userProfile
-        fields = ["profile_pic", "country",]
+        fields = ["profile_pic",]
 

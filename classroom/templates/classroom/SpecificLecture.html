@@ -1,4 +1,5 @@
 {% load static %}
+{% load embed_video_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,8 +33,13 @@
                 {% endif %}
                 <section class="left-content">
                     <h3>{{lecture.name}}</h3>
+                    <div class="lecture-video">
+                        <!--here i want to embed video-->
+                        {% video lecture.video_link %}
+                    </div>
                     <p>uploaded at: {{lecture.upload_date}}</p>
                     <br><br>
+                    {% if request.user.role == 2 %}
                     <div class="warning">
                         <form class="registration-form" method="GET" action="{% url "SpecificLecture" current_classroom_id playlist.id lecture.id %}">
                             {% csrf_token %}
@@ -41,6 +47,7 @@
                             </button>
                         </form>
                     </div>
+                    {% endif %}
                 </section>
                 <section class="right-content">
                     Lecture

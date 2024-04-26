@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'classroom',
     'chatbox',
     'tutor',
+    'embed_video',
 ]
 
 MIDDLEWARE = [

@@ -26,12 +26,26 @@
             {% else %}
                 <img src="{% static "images/male.png" %}" alt="Default Profile Picture">
             {% endif %}
-            <div>
-                <p>Email: {{ user_profile.user.email }}</p>
-                <p>Firstname: {{ user_profile.user.firstname }}</p>
-                <p>Lastname: {{ user_profile.user.lastname }}</p>
-                <p>Username: {{ user_profile.user.username }}</p>
-            </div>  
+            <form class="registration-form" method="post" action="{% url "profile" %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{user_profile_form.profile_pic}}
+                <div>
+                    <p>Email: {{ user_profile.user.email }}</p>
+                    <p>Firstname: </p>
+                    {{user_mini_form.firstname}}
+                    <p>Lastname: </p>
+                    {{user_mini_form.lastname}}
+                    <p>Username: </p>
+                    {{user_mini_form.username}}
+                </div>  
+                <br><br>
+                <div class="payment-holder">
+                    <input type="submit" value="Update" class="submit-button">
+                </div>
+                {{user_mini_form.errors}}
+                {{user_profile_form.errors}}
+            </form>
+
         </section>
     </main>
 </body>

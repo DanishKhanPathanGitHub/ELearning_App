@@ -71,6 +71,11 @@ header {
     color: #ffffff; /* Text color for selected link */
     background-color: #1639d5; /* Background color for selected link */
 }
+.classroom-desc{
+    max-height: 700px;
+    text-align: justify;
+    overflow-y: auto;
+}
 .main-content {
     display: flex;
     flex-direction: row;
