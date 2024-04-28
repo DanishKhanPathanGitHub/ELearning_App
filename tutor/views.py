@@ -105,9 +105,11 @@ def assignments_add(request, id):
 @login_required(login_url='login')
 @user_passes_test(check_role_tutor)
 def SpecificAssignment(request, id, asid):
+    Class = Classroom.objects.get(id=id)
+    assignment = Assignment.objects.get(id=asid)
     if check_classroom_participant(request.user, id):
-        Class = Classroom.objects.get(id=id)
-        assignment = Assignment.objects.get(id=asid)
+        if assignment.classroom != Class:
+            return render(request, '404.html')
         assignment_form = AssignmentUpdateForm(instance=assignment)
 
         class_students = Class.students.all()
@@ -159,9 +161,6 @@ def SpecificAssignment_delete(request, id, asid):
         messages.success(request, 'Assignment Delted')
         return redirect(f'/classroom/{Class.id}/assignments/')
 
-def SpecificLecture(request, id, lid):
-    return render(request, 'tutor/tutorSpecificLecture.html')
-
 @login_required(login_url='login')
 @user_passes_test(check_role_tutor)
 def announcements_add(request, id):
@@ -191,8 +190,10 @@ def announcements_add(request, id):
 def SpecificAnnouncement(request, id, anid):
     user = request.user
     Class = Classroom.objects.get(id=id)
+    announcement = Announcement.objects.get(id=anid)
     if check_classroom_participant(user, id):
-        announcement = Announcement.objects.get(id=anid)
+        if announcement.classroom != Class:
+            return render(request, '404.html')
         if request.POST:
             try:
                 announcement.file.delete()

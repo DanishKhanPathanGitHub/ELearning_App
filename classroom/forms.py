@@ -1,3 +1,7 @@
+from typing import Any, Mapping
+from django.core.files.base import File
+from django.db.models.base import Model
+from django.forms.utils import ErrorList
 from classroom.models import *
 from django import forms
 from .models import *
@@ -51,7 +55,20 @@ class VideoLectureForm(forms.ModelForm):
         if initial_playlist:
             self.fields['playlist'].initial = initial_playlist
             
-    notes=forms.FileField(widget=forms.FileInput(attrs={"class":"btn-btn-info"}), validators=[combine_file_validator], required=False)
     class Meta:
         model = VideoLecture
-        fields = ("name","video_link","playlist","notes",)
+        fields = ("name","video_link","playlist",)
+
+class VideoLectureUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = VideoLecture
+        fields = ("playlist",)
+
+class LectureNotesForm(forms.ModelForm):
+ 
+    note_file=forms.FileField(widget=forms.FileInput(attrs={"class":"btn-btn-info"}), validators=[combine_file_validator], required=True)
+    class Meta:
+        model = LectureNote
+        fields = ("note_file",)
+

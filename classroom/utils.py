@@ -37,8 +37,8 @@ def file_validator(value):
 def combine_file_validator(value):
     try:
         file_validator(value)
-    except ValidationError:
+    except ValidationError as e1:
         try:
             image_validator(value)
-        except ValidationError as e:
-            raise ValidationError(e)
+        except ValidationError as e2:
+            raise ValidationError(e1, e2)

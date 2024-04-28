@@ -78,14 +78,6 @@ header {
     height: 100%;
     margin-left: 220px; /* Ensure content doesn't overlap with the menu */
 }
-.delete-button {
-    padding: 15px;
-    background-color:#290974;
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    border-radius: 5px;
-    cursor: pointer;
-}
 .table-container {
     max-height: 300px; /* Adjust the maximum height as needed */
     overflow-y: auto;
@@ -127,3 +119,29 @@ td {
     padding: 10px;
 }
 
+.delete-button {
+    background-color: white;
+    /* Light blue color */
+    color: #1639d5;
+    padding: 10px 20px;
+    border: 2px solid #1639d5;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.delete-button:hover {
+    background-color: #1639d5;
+    color: #ffffff;
+}
+.submit-button {
+    background-color: white;
+    /* Light blue color */
+    color: #1639d5;
+    padding: 10px 20px;
+    border: 2px solid #1639d5;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.submit-button:hover {
+    background-color: #1639d5;
+    color: #ffffff;
+}

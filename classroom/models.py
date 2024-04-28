@@ -89,11 +89,11 @@ class Playlist(models.Model):
 
     def __str__(self):
         return self.name
+    
 
 class VideoLecture(models.Model):
     name = models.CharField(max_length=250)
     video_link = EmbedVideoField()
-    notes = models.FileField(upload_to='class/LectureNotes', null=True, blank=True)
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE) 
     upload_date = models.DateField(auto_now_add=True)
     class Meta:
@@ -103,4 +103,14 @@ class VideoLecture(models.Model):
     def __str__(self):
         return self.name
 
-    
+class LectureNote(models.Model):
+    video_lecture = models.ForeignKey(VideoLecture, related_name='lecture_notes', on_delete=models.CASCADE)
+    note_file = models.FileField(upload_to='class/LectureNotes')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Lecture Note"
+        verbose_name_plural = "Lecture Notes"
+
+    def __str__(self):
+        return f"Lecture Note for {self.video_lecture.name}"

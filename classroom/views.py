@@ -6,7 +6,7 @@ import os
 import datetime
 from django.utils import timezone
 from .models import *
-from .forms import AssignmentSubmissionForm, PlaylistForm, VideoLectureForm
+from .forms import AssignmentSubmissionForm, PlaylistForm, VideoLectureForm, LectureNotesForm, VideoLectureUpdateForm
 from accounts.models import userProfile, User
 from django.contrib import messages
 # Create your views here.
@@ -62,9 +62,11 @@ def assignments(request, id):
 @user_passes_test(check_role_student)    
 def SpecificAssignment(request, id, asid):
     user = request.user
+    assignment = Assignment.objects.get(id=asid)
     if check_classroom_participant(user, id):
+        if assignment.classroom.id != id:
+            return render(request, '404.html') 
         Class = Classroom.objects.get(id=id)                                   
-        assignment = Assignment.objects.get(id=asid)
         user_profile = userProfile.objects.get(user=user)
         try:
             check = AssignmentSubmission.objects.get(assignment=assignment, student=user_profile)
@@ -150,8 +152,8 @@ def LecturePlaylists(request, id):
         if request.GET:
             playlist_id = request.GET.get('playlist_id')
             playlist = Playlist.objects.get(id=playlist_id)
-            messages.success(request, 'playlist deleted')
             playlist.delete()
+            messages.success(request, 'playlist deleted')
             return redirect(f'/classroom/{Class.id}/LecturePlaylists')
         
         if request.POST:
@@ -175,8 +177,10 @@ def LecturePlaylists(request, id):
 @login_required(login_url='login')
 def SpecificPlaylist(request, id, pid):
     Class = Classroom.objects.get(id=id)
+    playlist = Playlist.objects.get(id=pid)
     if check_classroom_participant(request.user, id):
-        playlist = Playlist.objects.get(id=pid) 
+        if playlist.classroom != Class:
+            return render(request, '404.html')
         lectures = VideoLecture.objects.filter(playlist=playlist)
         context = {
             "playlist":playlist,
@@ -189,15 +193,60 @@ def SpecificPlaylist(request, id, pid):
 @login_required(login_url='login')
 def SpecificLecture(request, id, pid, lid):
     Class = Classroom.objects.get(id=id)
+    playlist = Playlist.objects.get(id=pid)
+    lecture = VideoLecture.objects.get(id=lid)
     if check_classroom_participant(request.user, id):
-        playlist = Playlist.objects.get(id=pid)
-        lecture = VideoLecture.objects.get(id=lid)
+        if playlist.classroom != Class or lecture.playlist != playlist:
+            return render(request, '404.html')
+        lecture_notes_form = LectureNotesForm()
+        lecture_update_form = VideoLectureForm(instance=lecture)
+        notes = LectureNote.objects.filter(video_lecture= lecture)
+        if request.POST:
+            if notes.count()>=3:
+                messages.warning(request, 'one lecture cannot have more than 3 notes')
+                return redirect(f'/classroom/{id}/LecturePlaylists/{pid}/Lecture/{lid}')
+            lecture_notes_form = LectureNotesForm(request.POST, request.FILES)
+            if lecture_notes_form.is_valid():
+                lecture_form = lecture_notes_form.save(commit=False)
+                lecture_form.video_lecture = lecture
+                lecture_form.save()
+                messages.success(request, 'Notes added succesfully')
+                return redirect(f'/classroom/{id}/LecturePlaylists/{pid}/Lecture/{lid}')
         context = {
             "current_classroom_id":Class.id,
             "playlist":playlist,
             "lecture":lecture,
+            "lecture_notes_form":lecture_notes_form,
+            "notes":notes,
+            "lecture_update_form":lecture_update_form,
         }
         return render(request, 'classroom/SpecificLecture.html', context)
+    
+@login_required(login_url='login')
+@user_passes_test(check_role_tutor)
+def SpecificLectureDelete(request, id, pid, lid):
+    Class = Classroom.objects.get(id=id)
+    if check_classroom_participant(request.user, id):
+        playlist = Playlist.objects.get(id=pid)
+        lecture = VideoLecture.objects.get(id=lid)
+        notes = LectureNote.objects.filter(video_lecture=lecture)
+        if request.GET:
+            lecture.delete()
+            messages.success(request, 'lecture deleted succesfully')
+            return redirect(f'/classroom/{id}/LecturePlaylists/{pid}/')
+
+@login_required(login_url='login')
+@user_passes_test(check_role_tutor)
+def SpecificLectureUpdate(request, id, pid, lid):
+    Class = Classroom.objects.get(id=id)
+    if check_classroom_participant(request.user, id):
+        lecture = VideoLecture.objects.get(id=lid)
+        playlist = request.POST['playlist']
+        lecture.playlist = Playlist.objects.get(id=playlist)
+        
+        lecture.save()
+        messages.success(request, 'playlist updated')
+        return redirect(f'/classroom/{id}/LecturePlaylists/{lecture.playlist.id}/')
 
 @login_required(login_url='login')
 def announcements(request, id):
@@ -228,8 +277,11 @@ def announcements(request, id):
 def SpecificAnnouncement(request, id, anid):
     user = request.user
     Class = Classroom.objects.get(id=id)
+    announcement = Announcement.objects.get(id=anid)
     if check_classroom_participant(user, id):
-        announcement = Announcement.objects.get(id=anid)
+        if announcement.classroom != Class:
+            return render(request, '404.html')
+        
         user_profile = userProfile.objects.get(user=user)
         announcement.read_status.add(user_profile)
         context = {

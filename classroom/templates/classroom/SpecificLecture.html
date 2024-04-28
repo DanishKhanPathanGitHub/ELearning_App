@@ -20,37 +20,77 @@
                 </ul>
             </nav>
         </div>
+        {% if messages %}
+            {% for message in messages  %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
             <section class="main-content" id="class-desc">
-                {% if messages %}
-                    {% for message in messages  %}
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            {{message}}
-                        </div>
-                    {% endfor %}
-                {% endif %}
                 <section class="left-content">
                     <h3>{{lecture.name}}</h3>
+                    {% if request.user.role == 2 %}
+                    <br><br>
+                    <form class="registration-form" method="POST" action="{% url "SpecificLectureUpdate" current_classroom_id playlist.id lecture.id %}">
+                        {% csrf_token %}
+                        Move this lecture to other playlist<br><br>
+                        {{lecture_update_form.playlist}}<br><br>
+                        <button class="submit-button" type="submit">Move
+                        </button><br><br>
+                    </form>
+                    {% endif %}
                     <div class="lecture-video">
                         <!--here i want to embed video-->
-                        {% video lecture.video_link %}
+                        {% video lecture.video_link '80% x 80%' %}
                     </div>
                     <p>uploaded at: {{lecture.upload_date}}</p>
                     <br><br>
                     {% if request.user.role == 2 %}
                     <div class="warning">
-                        <form class="registration-form" method="GET" action="{% url "SpecificLecture" current_classroom_id playlist.id lecture.id %}">
+                        <form class="registration-form" method="GET" action="{% url "SpecificLectureDelete" current_classroom_id playlist.id lecture.id %}">
                             {% csrf_token %}
-                            <button class="delete-button" type="submit" onclick="return confirm('Confirm approval')">Deactivate Claassroom
+                            <button class="delete-button" type="submit" onclick="return confirm('Lecture and all files associated will be deleted! confirm to delete')">Delete Lecture
                             </button>
                         </form>
                     </div>
                     {% endif %}
                 </section>
                 <section class="right-content">
-                    Lecture
+                    Lecture Notes:<br><br>
+                    {% if notes %}
+                    {% for note in notes %}
+                    <a href="{{ note.note_file.url }}" target="_blank" style="color:unset">
+                    <button class="submit-button">
+                        <i class="fa fa-file-pdf-o">
+                            {{note.note_file.name}}
+                        </i> 
+                    </button></a><br><br>
+                    {% endfor %}
+                    {% else %}
+                    No notes<br>
+                    {% endif %}
+                    {% if request.user.role == 2 %}
+                    <br>Upload notes
+                    <form class="registration-form" method="post" action="{% url "SpecificLecture" id=current_classroom_id pid=playlist.id lid=lecture.id %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <button class="submit-button" type="button">
+                            {{lecture_notes_form.note_file}}
+                        </button>
+                        <button class="submit-button" type="submit">Submit
+                        </button>
+                    </form>
+                    {% for field in lecture_notes_form %}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <li style="color:red">{{error}}</li>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                    {% endif %}
                 </section> 
             </section>
     </main>
