@@ -225,11 +225,8 @@ def SpecificLecture(request, id, pid, lid):
 @login_required(login_url='login')
 @user_passes_test(check_role_tutor)
 def SpecificLectureDelete(request, id, pid, lid):
-    Class = Classroom.objects.get(id=id)
     if check_classroom_participant(request.user, id):
-        playlist = Playlist.objects.get(id=pid)
         lecture = VideoLecture.objects.get(id=lid)
-        notes = LectureNote.objects.filter(video_lecture=lecture)
         if request.GET:
             lecture.delete()
             messages.success(request, 'lecture deleted succesfully')
@@ -240,6 +237,8 @@ def SpecificLectureDelete(request, id, pid, lid):
 def SpecificLectureUpdate(request, id, pid, lid):
     Class = Classroom.objects.get(id=id)
     if check_classroom_participant(request.user, id):
+        if not request.POST:
+            return render(request, '404.html') 
         lecture = VideoLecture.objects.get(id=lid)
         playlist = request.POST['playlist']
         lecture.playlist = Playlist.objects.get(id=playlist)
@@ -247,6 +246,8 @@ def SpecificLectureUpdate(request, id, pid, lid):
         lecture.save()
         messages.success(request, 'playlist updated')
         return redirect(f'/classroom/{id}/LecturePlaylists/{lecture.playlist.id}/')
+    else:
+        return render(request, '403.html')
 
 @login_required(login_url='login')
 def announcements(request, id):
@@ -259,10 +260,8 @@ def announcements(request, id):
         filter = request.GET.get('filter', 'latest')
         for announcement in announcements:
             if user_profile in announcement.read_status.all():
-                print(user_profile, ' in ', announcement )
                 pass
             else:
-                print(user_profile, ' not in ', announcement )
                 unread_announcemnets.append(announcement)
         context = {
             "announcements":announcements,
@@ -271,6 +270,8 @@ def announcements(request, id):
             "filter":filter,
         }
         return render(request, 'classroom/announcements.html', context)
+    else:
+        return render(request, '403.html')
 
 @login_required(login_url='login')
 @user_passes_test(check_role_student) 
@@ -290,4 +291,6 @@ def SpecificAnnouncement(request, id, anid):
             "anid":anid,
         }
         return render(request, 'classroom/SpecificAnnouncement.html', context)
+    else:
+        return render(request, '403.html')
 

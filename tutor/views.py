@@ -21,6 +21,15 @@ def tutorClassroom(request, id):
             "class_students":class_students,
         }
         return render(request, 'tutor/tutorClassroom.html', context)
+    
+@login_required(login_url='login')
+@user_passes_test(check_role_tutor)
+def tutorClassroomDelete(request, id):
+    user = request.user  # Access the authenticated user
+    if check_classroom_participant(user, id):
+        Class = Classroom.objects.get(id=id)  
+        Class.delete()
+        return redirect('/')
 
 @login_required(login_url='login')
 @user_passes_test(check_role_tutor)
@@ -195,13 +204,8 @@ def SpecificAnnouncement(request, id, anid):
         if announcement.classroom != Class:
             return render(request, '404.html')
         if request.POST:
-            try:
-                announcement.file.delete()
-                announcement.delete()
-                return redirect(f'/classroom/{Class.id}/announcements/')
-            except:
-                announcement.delete()
-                return redirect(f'/classroom/{Class.id}/announcements/')
+            announcement.delete()
+            return redirect(f'/classroom/{Class.id}/announcements/')
         context = {
             "announcement":announcement,
             "current_classroom_id":Class.id,

@@ -1,7 +1,6 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_delete
-from classroom.models import Announcement, Assignment, AssignmentSubmission, VideoLecture
-  
+from classroom.models import Announcement, Assignment, AssignmentSubmission, VideoLecture, Classroom
 @receiver(post_save, sender=Assignment)
 #reciever will get the signal->post_save from sender-> user
 #reciever function below will create/update the userProfile accordingly
@@ -33,7 +32,7 @@ def VideoLecture_post_save(sender, created, instance, **kwargs):
         playlist = lecture.playlist
         classroom = playlist.classroom
         
-        link = f'/classroom/{classroom.id}/LecturePlaylists/{playlist.id}/'
+        link = f'/classroom/{classroom.id}/LecturePlaylists/{playlist.id}/Lecture/{lecture.id}/'
         Announcement.objects.create(
             title=f"New Lecture: {lecture.name}",
             content=f"An Video Lecture titled '{lecture.name}' has been added to the classroom.",
@@ -43,19 +42,4 @@ def VideoLecture_post_save(sender, created, instance, **kwargs):
     else:
         pass
 
-@receiver(pre_delete, sender=Assignment)
-def assignment_pre_delete(sender, instance, **kwargs):    
-    assignment = instance
-    classroom = assignment.classroom
-    #deleting assignment file and all submission files of that assignment
-    assignment.assignment.delete()
-    submitted_assignments=AssignmentSubmission.objects.filter(assignment=assignment)
-    for file in submitted_assignments:
-        file.submitted_file.delete()
-    #deleting announcement of that assignment if exist
-    try:
-        link = f'/classroom/{classroom.id}/assignments/{assignment.id}/'
-        announcement = Announcement.objects.get(link=link)
-        announcement.delete()
-    except:
-        pass
+

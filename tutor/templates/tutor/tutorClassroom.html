@@ -38,9 +38,9 @@
                     </div>
                     <br><br>
                     <div class="warning">
-                        <form class="registration-form" method="GET" action="{% url "tutorClassroom" id=current_classroom_id%}">
+                        <form class="registration-form" method="POST" action="{% url "tutorClassroomDelete" id=current_classroom_id%}">
                             {% csrf_token %}
-                            <button class="delete-button" type="submit" onclick="return confirm('Confirm approval')">Deactivate Claassroom
+                            <button class="delete-button" type="submit" onclick="return confirm('All the classroom data will be deleted')">Deactivate Claassroom
                             </button>
                         </form>
                     </div>
